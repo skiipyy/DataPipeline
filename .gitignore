@@ -12,3 +12,5 @@ webserver_config.py
 imported_data/
 
 sample_data/
+
+.DS_Store

@@ -72,7 +72,7 @@ pip install "apache-airflow[celery]==2.4.2" --constraint "https://raw.githubuser
 ```
 - Set AIRFLOW_HOME to your local current directory:
 ```bash
-export AIRFLOW_HOME=/path/to/repo
+export AIRFLOW_HOME=/path/to/repo/
 ```
 - Init Airflow Database:
 ```bash
