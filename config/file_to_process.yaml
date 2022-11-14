@@ -1,11 +1,11 @@
 drugs:
-    path: "/Users/timliu/Documents/projects/DataPipeline/imported_data/tbl_drugs.parquet"
+    path: "./imported_data/tbl_drugs.parquet"
 
 clinical_trials:
-    path: "/Users/timliu/Documents/projects/DataPipeline/imported_data/tbl_clinical_trials.parquet"
+    path: "./imported_data/tbl_clinical_trials.parquet"
 
 pubmeds:
-    path: "/Users/timliu/Documents/projects/DataPipeline/imported_data/tbl_pubmed.parquet"
+    path: "./imported_data/tbl_pubmed.parquet"
 
 output:
-    path: "/Users/timliu/Documents/projects/DataPipeline/imported_data/graph.json"
+    path: "./imported_data/graph.json"

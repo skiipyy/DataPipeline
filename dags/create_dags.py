@@ -37,9 +37,9 @@ def create_dag(dag_type, env, yaml_path, tags):
 env = 'dv'
 
 # Read config needed to create dynamic dags
-with open('/Users/timliu/Documents/projects/DataPipeline/config/dag_config.yaml') as dag_file:
+with open('./config/dag_config.yaml') as dag_file:
     dag_config = yaml.safe_load(dag_file)
-with open('/Users/timliu/Documents/projects/DataPipeline/config/projects_list.json') as json_file:
+with open('./config/projects_list.json') as json_file:
     projects_config = json.load(json_file)
 
 # Iterate over all the projects
