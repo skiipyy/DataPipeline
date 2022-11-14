@@ -1,0 +1,14 @@
+__pycache__/
+
+.venv/
+
+airflow.cfg
+airflow.db
+
+logs/
+
+webserver_config.py
+
+imported_data/
+
+sample_data/

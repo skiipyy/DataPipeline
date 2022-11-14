@@ -1,0 +1,5 @@
+steps:
+- name: 'docker'
+  args: ['build', '-t', '', '.']
+- name: 'docker'
+  args: ['push', '']

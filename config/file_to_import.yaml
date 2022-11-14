@@ -1,0 +1,10 @@
+---
+-
+    FILENAME: file1
+    DESTINATION_TABLE: tbl_1
+-
+    FILENAME: file2
+    DESTINATION_TABLE: tbl_2
+-
+    FILENAME: file3
+    DESTINATION_TABLE: tbl_3

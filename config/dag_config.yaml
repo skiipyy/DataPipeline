@@ -1,0 +1,11 @@
+import:
+  tags : ["import"]
+  path_config : "/Users/timliu/Documents/projects/DataPipeline/config/file_to_import.yaml"
+
+process:
+  tags : ["process"]
+  path_config : "/Users/timliu/Documents/projects/DataPipeline/config/file_to_process.yaml"
+
+orchestrator:
+  tags : ["orchestrator"]
+  path_config : "/Users/timliu/Documents/projects/DataPipeline/config/file_to_process.yaml"
