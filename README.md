@@ -9,6 +9,11 @@ Table of Contents
    * [DataPipeline](#pipeline)
       * [Table of Contents](#table-of-contents)
       * [Project structure](#project-structure)
+      * [Jobs description](#jobs-description)
+         * [Import job](#import-job)
+      * [Airflow Dags](#airflow-dags)
+         * [Import dag](#import-dag)
+         * [Process dag](#process-dag)
       * [Quickstart](#quickstart)
          * [Local steps](#local-steps)
          * [Run local](#run-local)
@@ -49,9 +54,62 @@ Table of Contents
 Some explanations regarding structure:
 - `config` - folder is where config files about environments and execution context is located.
 - `dags` - Airflow dags
-- `import` - Import job code
+- `import` - Import job code 
 - `run_import.sh` - SH script to run import job
 - `run_process.py` - PY script to process data and generate json graph
+
+## Job description
+
+### Import job
+The purpose of the import job is to extract the data from source to `Google Cloud Storage`.
+The source could be CSV, JSON, ORACLE, MYSQL, MSSQL ...
+For now I just implemented CSV and JSON sources.
+
+In my pipeline, the import job would be in a separeted repository with a `Dockerfile` and a `cloudbuild.yaml` file.
+
+#### Why ?
+So each time we will make some modifications on the code, our `cloudbuild.yaml` would trigger `Google Cloud Build` to build and push the docker image on `Google Cloud Registry`.
+
+#### How to run the job ?
+
+The import job would be called on a certain schedule on a server.
+We can use `crontab` for example.
+`crontab` would pull and run the docker image with specific parameters.
+For the technical test you can run locally that command at the root of the repository.
+```bash
+./run_import.sh
+```
+
+###### Parameters
+- `--config_file` - Path of the config file giving all data sources
+- `--source_type` - Type of the source to import
+- `--source_id` - Source id of the source file to import
+- `--source` - Path or table name of the source file to import
+- `--dest_table` - Name of the destination table
+- `--bucket_name` - Bucket name to import in GCS
+- `--output_folder` - Output folder, file will be stored in GCS by default
+- `--debug` - Set debug level
+- `--env` - Environment
+
+
+### Airflow Dags
+In the pipeline we can create dynamic dags by reading configurations files.
+The dags files would be stored in `Google Cloud Storage` and they would be read be `Google Cloud Composer`.
+#### Import dag
+The purpose of this dag is to load the data extracted in `Google Cloud Storage` to `BigQuery` so the data is available to be queried for analytics purposes.
+> **_NOTE:_**  
+For the technical test, this dag is impemented but it does not work bacause I do not have available Bigquery buckets.
+
+#### Process dag
+The purpose of this dag is to process data imported by our pipeline to generate a json file of the graph.
+For the technical test you can run locally that command at the root of the repository.
+```bash
+python run_process.py
+```
+
+#### Orchestrator dag
+The orchestrator will trigger the import dag and then the process dag.
+
 
 ## Quickstart
 
@@ -93,10 +151,13 @@ Run import job:
 ```bash
 ./run_import.sh
 ```
+`imported_data` directory  has been created to the root with parquet files.
+
 Process data and generate JSON graph locally
 ```bash
 python run_process.py
 ```
+`processed_data` directory has been created to the root with json graph.
 ### With Airflow
 - Import dag: Load data imported by the import job, from locally or GCS to BQ.
 > **_NOTE:_**  
@@ -119,3 +180,14 @@ airflow scheduler -D
 Go to your browser http://localhost:8888/
 
 Dags are created
+
+## Questions
+
+### Quels sont les éléments à considérer pour faire évoluer votre code afin qu’il puisse gérer de grosses volumétries de données (fichiers de plusieurs To ou millions de fichiers par exemple) ?
+Si l'on veut gérer de grosses volumétriees de données:
+- Fichiers de plusieurs To: Lire le fichiers et charger les fichiers par partitons afin de soulager la RAM.
+- Plusieurs millions de fichiers: Il faudrait faire import/process les fichiers de manière parrallele sur des outils qui permettent l'autoscaling comme `Google Cloud DataProc`.
+
+### Pourriez-vous décrire les modifications qu’il faudrait apporter, s’il y en a, pour prendre en considération de telles volumétries ?
+- Faire en sorte de traiter une fichier partition par partition.
+- Faire en sorte de créer des jobs `DataProc` et les orchestrer avec `DataFlow`.

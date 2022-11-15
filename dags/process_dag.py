@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import json
 import yaml
+import os
 
 from networkx.readwrite import json_graph
 from datetime import datetime
@@ -167,15 +168,14 @@ class Graph():
         journals = self.get_journals()
         max = 0
         res = []
+        drugs = []
         for journal in journals:
             drugs = self.get_drugs_of_journal(journal)
             if len(drugs) > max:
                 max = len(drugs)
                 res = [journal]
-                print(journal, drugs)
             elif len(drugs) == max:
                 res.append(journal)
-                print(journal, drugs)
         return res
 
 
@@ -204,8 +204,11 @@ def generate_json_graph(path_drugs, path_clinical_trials, path_pubmeds, dest_nam
     G.add_pubmeds(df)
 
     json_g = G.to_json()
+    os.makedirs(os.path.dirname(dest_name), exist_ok=True)
     with open(dest_name, 'w') as fp:
         json.dump(json_g, fp)
+
+    print(f'Journals with the most drugs: {G.get_journal_with_most_drugs()}')
     
     return json_g
 

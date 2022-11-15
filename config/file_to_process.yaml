@@ -8,4 +8,4 @@ pubmeds:
     path: "./imported_data/tbl_pubmed.parquet"
 
 output:
-    path: "./imported_data/graph.json"
+    path: "./processed_data/graph.json"
