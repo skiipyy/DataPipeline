@@ -18,6 +18,7 @@ Table of Contents
          * [Local steps](#local-steps)
          * [Run local](#run-local)
          * [With Airflow](#with-airflow)
+   * [SQL Query](#SQL-query)
     
 ## Project structure
 ```
@@ -48,7 +49,11 @@ Table of Contents
 ├── README.md
 ├── requirements.txt
 ├── run_import.sh
-└── run_process.py
+├── run_process.py
+└── sql_queries
+    ├── query_1.sql
+    └── query_2.sql
+
 ```
 
 Some explanations regarding structure:
@@ -191,3 +196,6 @@ Si l'on veut gérer de grosses volumétriees de données:
 ### Pourriez-vous décrire les modifications qu’il faudrait apporter, s’il y en a, pour prendre en considération de telles volumétries ?
 - Faire en sorte de traiter une fichier partition par partition.
 - Faire en sorte de créer des jobs `DataProc` et les orchestrer avec `DataFlow`.
+
+# SQL Query
+The queries are in the `sql_queries` folder.
