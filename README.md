@@ -98,15 +98,29 @@ For the technical test you can run locally that command at the root of the repos
 
 
 ### Airflow Dags
-In the pipeline we can create dynamic dags by reading configurations files.
+In the pipeline we can create dynamic dags by reading configuration files.
 The dags files would be stored in `Google Cloud Storage` and they would be read be `Google Cloud Composer`.
 #### Import dag
 The purpose of this dag is to load the data extracted in `Google Cloud Storage` to `BigQuery` so the data is available to be queried for analytics purposes.
 > **_NOTE:_**  
-For the technical test, this dag is impemented but it does not work bacause I do not have available Bigquery buckets.
+For the technical test, this dag is impemented but it does not work because I do not have available Bigquery buckets.
 
 #### Process dag
 The purpose of this dag is to process data imported by our pipeline to generate a json file of the graph.
+To generate a json graph, I created a class named `Graph` and methods.
+- `class Graph()` - Class Graph
+- `from_json(self, json_graph)` - It will set the graph from a json
+- `add_drug(self, drug)` - It will add one drug to the graph
+- `add_drugs(self, df_drugs)` - It will add drugs to the graph
+- `add_pubmed(self, pubmed)` - It will add one pubmed to the graph
+- `add_pubmeds(self, df_pubmeds)` - It will add pubmeds to the graph
+- `add_clinical_trial(self, clinical_trial)` - It will add one clinical_trial to the graph
+- `add_clinical_trials(self, df_clinical_trials)` - It will add clinical_trials to the graph
+- `to_json(self)` - Get json version of the graph
+- `get_drugs_of_journal(self, journal)` - Get drugs of one journal
+- `get_journals(self)` - Get journals of the graph
+- `get_journal_with_most_drugs(self)` -  Get journal with the most drugs. Multiple journals if same number of drugs
+
 For the technical test you can run locally that command at the root of the repository.
 ```bash
 python run_process.py
